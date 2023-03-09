@@ -30,11 +30,11 @@ spec:
     spec: 
       initContainers:
       - name: migration
-        image: khushalmer/myimg
+        image: khushalmer/myimg2
         command: ['sh', '-c', 'php artisan key:generate && php artisan migrate']   
       containers:
         - name: appcontainer
-          image: khushalmer/myimg
+          image: khushalmer/myimg2
           ports:
           - containerPort: 80
           command: ["/bin/sh"]
