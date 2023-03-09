@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: appservice
+spec:
+  selector:
+    app: laravel
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  # type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: laravel
+spec:
+  selector:
+    matchLabels: 
+      app: laravel
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: laravel   
+    spec: 
+      initContainers:
+      - name: migration
+        image: khushalmer/myimg
+        command: ['sh', '-c', 'php artisan key:generate && php artisan migrate']   
+      containers:
+        - name: appcontainer
+          image: khushalmer/myimg
+          ports:
+          - containerPort: 80
+          command: ["/bin/sh"]
+          args: ["-c","php artisan serve --host=0.0.0.0 --port=80"]
+      
+         
