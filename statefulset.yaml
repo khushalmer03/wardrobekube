@@ -20,8 +20,8 @@ metadata:
     db: mysql
 spec:
   selector:
-      matchLabels:
-        db: mysql
+    matchLabels:
+      db: mysql
   template:
     metadata:
       name: sqltemplate
@@ -34,21 +34,20 @@ spec:
         ports:
         - containerPort: 3306
         env:
-        # - name: MYSQL_ROOT_PASSWORD
-        #   value: admin     
+        - name: MYSQL_ROOT_PASSWORD
+          value: forge
         - name: MYSQL_DATABASE
           value: forge
         - name: MYSQL_USER
           value: forge
-        # - name: MYSQL_PASSWORD
-        #   value: forge
-        envFrom:
-        - secretRef:
-            name: dbsecret      
+        - name: MYSQL_PASSWORD
+          value: forge
+        # envFrom:
+        # - secretRef:
+        #     name: dbsecret      
         volumeMounts:
           - mountPath: "/var/lib/mysql"
             name: local-vol
-                 
   volumeClaimTemplates:
     - metadata:
         name: local-vol
